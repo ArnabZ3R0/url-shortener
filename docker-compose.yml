@@ -29,6 +29,17 @@ services:
       - postgres
     restart: unless-stopped
 
+  url-shortener:
+    container_name: url-shortener
+    image: dpage/url-shortener:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      -  pgadmin
+      -  postgres
+    networks:
+      - postgres
+
 networks:
   postgres:
     driver: bridge
