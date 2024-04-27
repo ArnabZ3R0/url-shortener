@@ -22,8 +22,8 @@ public class Urlshortenercontroller {
 
     @PostMapping()
     public ResponseEntity<String> generateUrl(@RequestBody UrlDto urlDto){
-        urlShortenerService.generateUrl(urlDto);
-        return new ResponseEntity<>("Short URL successfully generated", HttpStatus.CREATED);
+        Url url = urlShortenerService.generateUrl(urlDto);
+        return new ResponseEntity<>("Short URL successfully generated, short url : " + url.getShortUrl() , HttpStatus.CREATED);
     }
 
     @GetMapping("/{shortUrl}")

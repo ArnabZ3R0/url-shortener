@@ -31,6 +31,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 
             urlRepository.save(url);
 
+            return url;
         }
 
         return null;
