@@ -1,17 +1,39 @@
 package com.zero.urlshortenerms.controller;
 
 import cn.hutool.core.lang.Snowflake;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.zero.urlshortenerms.enitity.Url;
+import com.zero.urlshortenerms.enitity.UrlDto;
+import com.zero.urlshortenerms.service.UrlShortenerService;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 public class Urlshortenercontroller {
 
+    UrlShortenerService urlShortenerService;
 
-    Snowflake snowflake = new Snowflake();
-    @GetMapping("/hello")
-    public String hello(){
-        return snowflake.nextIdStr();
+    public Urlshortenercontroller(UrlShortenerService urlShortenerService) {
+        this.urlShortenerService = urlShortenerService;
+    }
+
+    @PostMapping()
+    public ResponseEntity<String> generateUrl(@RequestBody UrlDto urlDto){
+        urlShortenerService.generateUrl(urlDto);
+        return new ResponseEntity<>("Short URL successfully generated", HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{shortUrl}")
+    public ResponseEntity<?> redirectToOriginalUrl(@PathVariable String shortUrl, HttpServletResponse response) throws IOException {
+        Url url = urlShortenerService.redirectToOriginalUrl(shortUrl);
+        if(url != null){
+            response.sendRedirect(url.getLongUrl());
+        }
+
+        return new ResponseEntity<>("Short Url not found in database! Please generate a short URL to long URL mapping",HttpStatus.NOT_FOUND);
     }
 
 }
