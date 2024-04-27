@@ -39,6 +39,8 @@ services:
       -  postgres
     networks:
       - postgres
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
 
 networks:
   postgres:
