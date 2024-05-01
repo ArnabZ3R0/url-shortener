@@ -23,6 +23,13 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+<!--		H2 dependency-->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
 <!--		Hutool dependency for scnowflake id generation-->
 		<dependency>
 			<groupId>cn.hutool</groupId>
